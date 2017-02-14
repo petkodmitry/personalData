@@ -10,8 +10,13 @@ import java.io.IOException;
 @WebServlet(name = "editdata", urlPatterns = "/user/editdata")
 public class EditDataServlet extends HttpServlet {
 
-    @Override
+    /*@Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/mainuser.jsp").forward(request, response);
     }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+    }*/
 }
