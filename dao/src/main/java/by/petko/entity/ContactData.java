@@ -1,14 +1,12 @@
 package by.petko.entity;
 
-import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "users_data")
-public class ContactData implements IEntity{
+public class ContactData {
     private Integer dataId;
     private String city;
     private String street;
@@ -19,8 +17,7 @@ public class ContactData implements IEntity{
     private UserEntity user;
 
     @Id
-//    @GeneratedValue
-    @Column(name = "uid", nullable = false)
+    @Column(name = "uid", nullable = false, unique = true)
     public Integer getDataId() {
         return dataId;
     }
@@ -65,8 +62,8 @@ public class ContactData implements IEntity{
         this.flat = flat;
     }
 
-    @Size(min = 13, max = 13, message = "phone number must be \"+\" and 12 characters.")
-    @Pattern(regexp = "\\+375[0-9]{9}", message = "phone number must be \"+375...\" formatted")
+    @Pattern(regexp = "^\\+375\\([0-9]{2}\\)[0-9]{3}\\-[0-9]{2}\\-[0-9]{2}$",
+            message = "phone number must be '+375(xx)xxx-xx-xx' formatted.")
     @Column(name = "phone")
     public String getPhone() {
         return phone;
@@ -76,7 +73,8 @@ public class ContactData implements IEntity{
         this.phone = phone;
     }
 
-    @Email(message = "please, enter a valid email address")
+    @Pattern(regexp = "^[a-zA-Z0-9.%+-_]+@[a-zA-Z0-9.%+-]+\\.[a-zA-Z]{2,}$",
+            message = "please, enter a valid email address")
     @Column(name = "email")
     public String getEmail() {
         return email;
@@ -86,7 +84,7 @@ public class ContactData implements IEntity{
         this.email = email;
     }
 
-    @OneToOne/*(mappedBy = "contactData", cascade = CascadeType.ALL)*/
+    @OneToOne
     @PrimaryKeyJoinColumn
     public UserEntity getUser() {
         return user;

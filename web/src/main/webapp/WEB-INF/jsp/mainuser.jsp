@@ -3,35 +3,9 @@
 <%@ page errorPage="error.jsp" %>
 <html>
 <head>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-3.1.1.js"></script>
-    <script>
-        var counter = 0;
-        $(document).on('change', '.checkable', function () {
-            var $current = $(this).val();
-//            var $current = $(this).closest('div').find('input[name="current"]').val();
-            var $default = $(this).siblings('input[title="default"]').val();
-            if ($current == $default) counter = counter - 1;
-            else counter = counter + 1;
-            if (counter != 0) {
-                $('#edit').prop('disabled', false);
-                $('#cancel').prop('disabled', false);
-            }
-            else {
-                $('#edit').prop('disabled', true);
-                $('#cancel').prop('disabled', true);
-            }
-        });
-
-        function cancelAll() {
-            $(".checkable").each(
-                    function() {
-                        $(this).val($(this).siblings('input[title="default"]').val());
-                    }
-            );
-            $('#edit').prop('disabled', true);
-            $('#cancel').prop('disabled', true);
-        }
-    </script>
+    <%--<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.1.js"></script>--%>
+    <script type="text/javascript" src="../../js/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="../../js/validation.js"></script>
 
     <title>Личный кабинет</title>
 </head>
@@ -39,7 +13,6 @@
 <H3>Добро пожаловать, ${user.getName()}!</H3>
 <HR>
 
-<%--<form method="POST" action="user/editdata">--%>
 <form method="POST" action="user">
     <table>
         <tr>
@@ -48,9 +21,10 @@
         </tr>
         <tr>
             <td></td>
-            <%--<td><button type="button" onclick="location.href='user/changepassword'">Сменить пароль</button> </td>--%>
             <td>
-                <button type="button" onclick="checkChanges('qwe')">Сменить пароль</button>
+                <button type="button" onclick="location.href='${pageContext.request.contextPath}/user/changepassword'">
+                    Сменить пароль
+                </button>
             </td>
         </tr>
         <tr>
@@ -91,7 +65,7 @@
             <td>
                 <div>
                     <input type="date" name="birthdate" class="checkable" title="birthdate"
-                           <%--value="${user.getBirthDate() != "(NULL)" ? (user.getBirthDate().getYear().toString().concat("-").concat(user.getBirthDate().getMonth()).concat("-").concat(user.getBirthDate().getDate())) : ""}"/>--%>
+                    <%--value="${user.getBirthDate() != "(NULL)" ? (user.getBirthDate().getYear().toString().concat("-").concat(user.getBirthDate().getMonth()).concat("-").concat(user.getBirthDate().getDate())) : ""}"/>--%>
                            value="${user.getBirthDate() != "(NULL)" ? String.format("%d-%s%d-%s%d", user.getBirthDate().getYear() + 1900, user.getBirthDate().getMonth() >= 9 ? "" : "0", user.getBirthDate().getMonth() + 1, user.getBirthDate().getDate() >= 10 ? "" : "0", user.getBirthDate().getDate()) : ""}"/>
                     <input hidden="hidden" title="default"
                            value="${user.getBirthDate() != "(NULL)" ? String.format("%d-%s%d-%s%d", user.getBirthDate().getYear() + 1900, user.getBirthDate().getMonth() >= 9 ? "" : "0", user.getBirthDate().getMonth() + 1, user.getBirthDate().getDate() >= 10 ? "" : "0", user.getBirthDate().getDate()) : ""}"/>
@@ -150,6 +124,7 @@
                            value="${user.getContactData().getPhone() != "(NULL)" ? user.getContactData().getPhone() : ""}"/>
                     <input hidden="hidden" title="default"
                            value="${user.getContactData().getPhone() != "(NULL)" ? user.getContactData().getPhone() : ""}"/>
+                    <label id="phoneError" style="color: RED"></label>
                 </div>
             </td>
         </tr>
@@ -163,6 +138,7 @@
                            value="${user.getContactData().getEmail() != '(NULL)' ? user.getContactData().getEmail() : ''}"/>
                     <input hidden="hidden" title="default"
                            value="${user.getContactData().getEmail() != '(NULL)' ? user.getContactData().getEmail() : ''}"/>
+                    <label id="emailError" style="color: RED"></label>
                 </div>
             </td>
         </tr>
@@ -188,8 +164,8 @@
 
         <tr></tr>
         <tr>
-            <td><input id="cancel" disabled type="button" value="Отменить" onclick="cancelAll()"/></td>
-            <td colspan="2" style="height: 50px;"><input id="edit" disabled type="submit" value="Редактировать"/></td>
+            <td style="height: 30px; vertical-align: bottom"><input id="cancel" disabled type="button" value="Отменить" onclick="cancelAll()"/></td>
+            <td style="height: 30px; vertical-align: bottom"><input id="edit" disabled type="submit" value="Редактировать"/></td>
         </tr>
     </table>
 </form>

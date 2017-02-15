@@ -2,6 +2,7 @@ package by.petko.servlets;
 
 import by.petko.UserService;
 import by.petko.entity.UserEntity;
+import by.petko.entity.UserRole;
 import org.hibernate.HibernateException;
 
 import javax.servlet.ServletException;
@@ -31,16 +32,16 @@ public class LoginServlet extends HttpServlet {
                     password == null || password.isEmpty() ||
                     (user = userService.login(username, password)) == null) {
                 request.setAttribute("errorMessage", "Please enter valid username and password.");
-                request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
+                doGet(request, response);
             } else {
-                request.getSession().setAttribute("user", user);
-                switch (user.getRole().toUpperCase()) {
-                    case "ADMIN":
-                        response.sendRedirect(request.getContextPath() + "/admin");
-                        break;
-                    case "USER":
-                        response.sendRedirect(request.getContextPath() + "/user");
-                        break;
+                String userRole = user.getRole().toUpperCase();
+                try {
+                    UserRole.valueOf(userRole);
+                    request.getSession().setAttribute("user", user);
+                    response.sendRedirect(request.getContextPath() + "/" + userRole.toLowerCase());
+                } catch (IllegalArgumentException e) {
+                    request.setAttribute("errorMessage", "User's role is " + userRole + ", which is not allowed.");
+                    doGet(request, response);
                 }
             }
         } catch (HibernateException e) {
@@ -48,7 +49,7 @@ public class LoginServlet extends HttpServlet {
             if (errorMessage == null) {
                 request.setAttribute("errorMessage", "Some problem with DB connection occurred.");
             } else request.setAttribute("errorMessage", errorMessage);
-            request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
+            doGet(request, response);
         }
     }
 }

@@ -7,7 +7,7 @@
 <BODY><H3>Войдите в систему:</H3>
 <HR>
 
-<form method="POST" action="login">
+<form method="POST" action="login" >
     <table>
         <tr>
             <td>Name:</td>
@@ -18,8 +18,8 @@
             <td><input type="password" name="password" title="password"/></td>
         </tr>
         <tr>
-            <td colspan="2"><input type="submit" value="Enter" /></td>
-            <td colspan="2"><input type="reset" value="Reset" /></td>
+            <td><input type="reset" value="Reset" /></td>
+            <td><input type="submit" value="Enter" style="float: right" /></td>
         </tr>
     </table>
 </form>

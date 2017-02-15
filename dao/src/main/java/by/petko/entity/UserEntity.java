@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "users")
-public class UserEntity implements IEntity {
+public class UserEntity {
     private Integer userId;
     private String login;
     private String password;
@@ -33,7 +33,7 @@ public class UserEntity implements IEntity {
     }
 
     @Size(min = 3, message = "login length must be at list 3 characters")
-    @Column(name = "login", nullable = false)
+    @Column(name = "login", nullable = false, unique = true)
     public String getLogin() {
         return login;
     }
