@@ -5,7 +5,7 @@
 <head>
     <%--<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.1.js"></script>--%>
     <script type="text/javascript" src="../../js/jquery-3.1.1.js"></script>
-    <script type="text/javascript" src="../../js/validation.js"></script>
+    <script type="text/javascript" src="../../js/validationUser.js"></script>
 
     <title>Личный кабинет</title>
 </head>
@@ -13,7 +13,7 @@
 <H3>Добро пожаловать, ${user.getName()}!</H3>
 <HR>
 
-<form method="POST" action="user">
+<form method="POST" action="${pageContext.request.contextPath}/user">
     <table>
         <tr>
             <td>Логин:</td>
@@ -170,7 +170,7 @@
     </table>
 </form>
 
-<BR><a href="user/logout">Выход</a><BR>
+<BR><a href="${pageContext.request.contextPath}/user/logout">Выход</a><BR>
 <c:if test="${requestScope['errorMessage'] != null}">
     <BR>Error: ${errorMessage}
 </c:if>

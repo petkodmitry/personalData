@@ -7,7 +7,7 @@
 <BODY><H3>Смена пароля:</H3>
 <HR>
 
-<form method="POST" action="${pageContext.request.contextPath}changepassword">
+<form method="POST" action="${pageContext.request.contextPath}/user/changepassword">
 <%--<form method="POST" action="user/changepassword">--%>
     <table>
         <tr>

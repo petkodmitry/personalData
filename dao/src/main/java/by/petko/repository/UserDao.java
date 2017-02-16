@@ -1,13 +1,16 @@
 package by.petko.repository;
 
 import by.petko.config.HibernateUtilLibrary;
+import by.petko.entity.ContactData;
 import by.petko.entity.UserEntity;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 
 import java.util.List;
 import java.util.Map;
@@ -48,9 +51,22 @@ public class UserDao {
         return (UserEntity) session.get(UserEntity.class, id);
     }
 
+    public UserEntity getByLogin(String login) {
+        session = util.getSession();
+        String hql = "SELECT U FROM UserEntity U WHERE U.login=:login";
+        Query query = session.createQuery(hql);
+        query.setParameter("login", login);
+        return (UserEntity) query.uniqueResult();
+    }
+
     public void refresh(UserEntity user) {
         session = util.getSession();
         session.refresh(user);
+    }
+
+    public void delete(UserEntity user) {
+        session = util.getSession();
+        session.delete(user);
     }
 
     public Long getTotalCount() {
@@ -62,33 +78,38 @@ public class UserDao {
         return result;
     }
 
-    public List<UserEntity> getAllWithSortAndFilter(/*int first, int max, */String sortBy,
+    public List<UserEntity> getAllWithSortAndFilter(String sortBy,
                                                     String orderType, Map<String, String> filters) {
         List<UserEntity> result;
-            session = util.getSession();
-            Criteria criteria = session.createCriteria(UserEntity.class);
-            if (sortBy != null && orderType != null) {
-                criteria = orderType.equals("asc") ? criteria.addOrder(Order.asc(sortBy).ignoreCase())
-                        : criteria.addOrder(Order.desc(sortBy).ignoreCase());
+        session = util.getSession();
+        Criteria criteriaUser = session.createCriteria(UserEntity.class, "user");
+        criteriaUser.createAlias("user.contactData", "contactData", JoinType.LEFT_OUTER_JOIN);
+        if (sortBy != null && orderType != null) {
+            if ("login".equals(sortBy) || "name".equals(sortBy) || "middleName".equals(sortBy) ||
+                    "surname".equals(sortBy) || "department".equals(sortBy) ||
+                    "position".equals(sortBy) || "entryDate".equals(sortBy)) {
+                criteriaUser = orderType.equals("asc") ? criteriaUser.addOrder(Order.asc(sortBy).ignoreCase())
+                        : criteriaUser.addOrder(Order.desc(sortBy).ignoreCase());
+            } else {
+                criteriaUser = orderType.equals("asc") ? criteriaUser.addOrder(Order.asc("contactData." + sortBy).ignoreCase())
+                        : criteriaUser.addOrder(Order.desc("contactData." + sortBy).ignoreCase());
             }
-            for (String filter : filters.keySet()) {
-                switch (filter) {
-                    case "userId":
-                        criteria.add(Restrictions.sqlRestriction(" uid LIKE '%" + filters.get(filter) + "%' "));
-                        break;
-                    default:
-                        criteria.add(Restrictions.ilike(filter, "%" + filters.get(filter) + "%"));
-                        break;
-                }
+        }
+        for (String filter : filters.keySet()) {
+            switch (filter) {
+                case "login":case "name":case "middleName":case "surname":
+                case "department":case "position":
+                    criteriaUser.add(Restrictions.ilike(filter, "%" + filters.get(filter) + "%"));
+                    break;
+                case "entryDate":
+                    criteriaUser.add(Restrictions.sqlRestriction(" entry_date LIKE '" + filters.get(filter) + "' "));
+                    break;
+                default:
+                    criteriaUser.add(Restrictions.ilike("contactData." + filter, "%" + filters.get(filter) + "%"));
+                    break;
             }
-//            criteria.setFirstResult(first);
-//            criteria.setMaxResults(max);
-            result = criteria.list();
+        }
+        result = criteriaUser.list();
         return result;
     }
-
-    /*public void flush() {
-        session = util.getSession();
-        session.flush();
-    }*/
 }

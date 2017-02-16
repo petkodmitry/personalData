@@ -126,7 +126,8 @@ public class UserEntity {
         this.position = position;
     }
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     public ContactData getContactData() {
         return contactData;

@@ -84,7 +84,9 @@ public class ContactData {
         this.email = email;
     }
 
-    @OneToOne
+//    @OneToOne
+    @OneToOne(/*mappedBy = "contactData"*//*, cascade = CascadeType.ALL*/)
+
     @PrimaryKeyJoinColumn
     public UserEntity getUser() {
         return user;

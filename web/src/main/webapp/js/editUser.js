@@ -1,10 +1,12 @@
 var counter = 0;
+
+var isLoginOk = true;
+var isPasswordOk = true;
 var isEmailOk = true;
 var isPhoneOk = true;
 
 $(document).on('change', '.checkable', function () {
     var $current = $(this).val();
-//            var $current = $(this).closest('div').find('input[name="current"]').val();
     var $default = $(this).siblings('input[title="default"]').val();
     if ($current == $default) counter = counter - 1;
     else counter = counter + 1;

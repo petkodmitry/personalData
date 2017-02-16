@@ -140,4 +140,33 @@ public class UserService {
             util.releaseSession(currentSession);
         }
     }
+
+    public void deleteUser(String login) {
+        Session currentSession = null;
+        Transaction transaction = null;
+        try {
+            currentSession = util.getSession();
+            transaction = currentSession.beginTransaction();
+            UserEntity user = userDao.getByLogin(login);
+            userDao.delete(user);
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) transaction.rollback();
+            throw new HibernateException(e.getMessage());
+        } finally {
+            util.releaseSession(currentSession);
+        }
+    }
+
+    public UserEntity getByLogin(String login) {
+        Session currentSession = null;
+        try {
+            currentSession = util.getSession();
+            return userDao.getByLogin(login);
+        } catch (HibernateException e) {
+            throw new HibernateException(e.getMessage());
+        } finally {
+            util.releaseSession(currentSession);
+        }
+    }
 }
