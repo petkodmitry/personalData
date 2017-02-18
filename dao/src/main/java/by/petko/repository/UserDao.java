@@ -1,13 +1,10 @@
 package by.petko.repository;
 
 import by.petko.config.HibernateUtilLibrary;
-import by.petko.entity.ContactData;
 import by.petko.entity.UserEntity;
 import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
@@ -42,8 +39,6 @@ public class UserDao {
     public void saveOrUpdate(UserEntity user) {
         session = util.getSession();
         session.saveOrUpdate(user);
-//        session.flush();
-//        session.refresh(user);
     }
 
     public UserEntity getById(Integer id) {
@@ -95,18 +90,19 @@ public class UserDao {
                         : criteriaUser.addOrder(Order.desc("contactData." + sortBy).ignoreCase());
             }
         }
-        for (String filter : filters.keySet()) {
-            switch (filter) {
-                case "login":case "name":case "middleName":case "surname":
-                case "department":case "position":
-                    criteriaUser.add(Restrictions.ilike(filter, "%" + filters.get(filter) + "%"));
-                    break;
-                case "entryDate":
-                    criteriaUser.add(Restrictions.sqlRestriction(" entry_date LIKE '" + filters.get(filter) + "' "));
-                    break;
-                default:
-                    criteriaUser.add(Restrictions.ilike("contactData." + filter, "%" + filters.get(filter) + "%"));
-                    break;
+        if (filters != null) {
+            for (String filter : filters.keySet()) {
+                switch (filter) {
+                    case "login":case "name":case "middleName":case "surname":case "department":case "position":
+                        criteriaUser.add(Restrictions.ilike(filter, "%" + filters.get(filter) + "%"));
+                        break;
+                    case "entryDate":
+                        criteriaUser.add(Restrictions.sqlRestriction(" entry_date LIKE '" + filters.get(filter) + "' "));
+                        break;
+                    default:
+                        criteriaUser.add(Restrictions.ilike("contactData." + filter, "%" + filters.get(filter) + "%"));
+                        break;
+                }
             }
         }
         result = criteriaUser.list();

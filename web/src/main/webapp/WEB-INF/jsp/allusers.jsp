@@ -8,7 +8,7 @@
 <HTML>
 <HEAD>
     <TITLE>All users</TITLE>
-    <script type="text/javascript" src="../../js/mainAdmin.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/mainAdmin.js"></script>
 </HEAD>
 <BODY><H3>Table: Users</H3>
 <HR>
@@ -87,7 +87,7 @@
     <%--Filtering row of the table--%>
     <tr>
         <td>
-            <form style="height: 5px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
+            <form style="height: 5px; min-width: 70px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
                 <input style="width: 50px" type="text" title="для установки фильтра нажмите Enter" name="filterText"
                        value="${sessionScope.get("filters").get("login")}"/>
                 <input type="submit"
@@ -97,7 +97,7 @@
             </form>
         </td>
         <td>
-            <form style="height: 5px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
+            <form style="height: 5px; min-width: 70px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
                 <input style="width: 50px" type="text" title="для установки фильтра нажмите Enter" name="filterText"
                        value="${sessionScope.get("filters").get("name")}"/>
                 <input type="submit"
@@ -107,7 +107,7 @@
             </form>
         </td>
         <td>
-            <form style="height: 5px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
+            <form style="height: 5px; min-width: 70px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
                 <input style="width: 50px" type="text" title="для установки фильтра нажмите Enter" name="filterText"
                        value="${sessionScope.get("filters").get("middleName")}"/>
                 <input type="submit"
@@ -117,7 +117,7 @@
             </form>
         </td>
         <td>
-            <form style="height: 5px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
+            <form style="height: 5px; min-width: 70px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
                 <input style="width: 50px" type="text" title="для установки фильтра нажмите Enter" name="filterText"
                        value="${sessionScope.get("filters").get("surname")}"/>
                 <input type="submit"
@@ -127,7 +127,7 @@
             </form>
         </td>
         <td>
-            <form style="height: 5px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
+            <form style="height: 5px; min-width: 70px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
                 <input style="width: 50px" type="text" title="для установки фильтра нажмите Enter" name="filterText"
                        value="${sessionScope.get("filters").get("department")}"/>
                 <input type="submit"
@@ -137,7 +137,7 @@
             </form>
         </td>
         <td>
-            <form style="height: 5px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
+            <form style="height: 5px; min-width: 70px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
                 <input style="width: 50px" type="text" title="для установки фильтра нажмите Enter" name="filterText"
                        value="${sessionScope.get("filters").get("position")}"/>
                 <input type="submit"
@@ -147,7 +147,7 @@
             </form>
         </td>
         <td>
-            <form style="height: 5px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
+            <form style="height: 5px; min-width: 150px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
                 <input style="width: 130px" type="date" title="для установки фильтра нажмите Enter" name="filterText"
                        value="${sessionScope.get("filters").get("entryDate")}"/>
                 <input type="submit"
@@ -157,7 +157,7 @@
             </form>
         </td>
         <td>
-            <form style="height: 5px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
+            <form style="height: 5px; min-width: 70px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
                 <input style="width: 50px" type="text" title="для установки фильтра нажмите Enter" name="filterText"
                        value="${sessionScope.get("filters").get("city")}"/>
                 <input type="submit"
@@ -167,7 +167,7 @@
             </form>
         </td>
         <td>
-            <form style="height: 5px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
+            <form style="height: 5px; min-width: 70px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
                 <input style="width: 50px" type="text" title="для установки фильтра нажмите Enter" name="filterText"
                        value="${sessionScope.get("filters").get("street")}"/>
                 <input type="submit"
@@ -177,7 +177,7 @@
             </form>
         </td>
         <td>
-            <form style="height: 5px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
+            <form style="height: 5px; min-width: 70px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
                 <input style="width: 50px" type="text" title="для установки фильтра нажмите Enter" name="filterText"
                        value="${sessionScope.get("filters").get("building")}"/>
                 <input type="submit"
@@ -187,7 +187,7 @@
             </form>
         </td>
         <td>
-            <form style="height: 5px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
+            <form style="height: 5px; min-width: 70px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
                 <input style="width: 50px" type="text" title="для установки фильтра нажмите Enter" name="filterText"
                        value="${sessionScope.get("filters").get("flat")}"/>
                 <input type="submit"
@@ -197,7 +197,7 @@
             </form>
         </td>
         <td>
-            <form style="height: 5px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
+            <form style="height: 5px; min-width: 70px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
                 <input style="width: 50px" type="text" title="для установки фильтра нажмите Enter" name="filterText"
                        value="${sessionScope.get("filters").get("phone")}"/>
                 <input type="submit"
@@ -207,7 +207,7 @@
             </form>
         </td>
         <td>
-            <form style="height: 5px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
+            <form style="height: 5px; min-width: 70px" method="POST" action="${pageContext.request.contextPath}/admin/allusers">
                 <input style="width: 50px" type="text" title="для установки фильтра нажмите Enter" name="filterText"
                        value="${sessionScope.get("filters").get("email")}"/>
                 <input type="submit"
@@ -219,7 +219,7 @@
     </tr>
     <c:forEach items="${userList}" var="user">
         <tr>
-            <td><a href="${pageContext.request.contextPath}/admin/edit?login=${user.getLogin()}"
+            <td><a href="${pageContext.request.contextPath}/admin/edit?username=${user.getLogin()}"
                 title="Edit data for <${user.getLogin()}>">${user.getLogin()}</a></td>
             <td><c:out value="${user.getName()}"/></td>
             <td><c:out value="${user.getMiddleName()}"/></td>

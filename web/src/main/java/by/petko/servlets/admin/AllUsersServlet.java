@@ -2,7 +2,6 @@ package by.petko.servlets.admin;
 
 import by.petko.UserService;
 import by.petko.entity.UserEntity;
-import org.hibernate.HibernateException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -62,7 +61,6 @@ public class AllUsersServlet extends HttpServlet {
             session.setAttribute("totalToShow", usersList.size());
             session.setAttribute("usersList", usersList);
         } catch (Exception e) {
-//            e.printStackTrace();
             String errorMessage = e.getMessage();
             if (errorMessage == null) {
                 request.setAttribute("errorMessage", "Some problem with DB connection occurred.");

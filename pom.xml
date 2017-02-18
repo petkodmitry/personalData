@@ -20,16 +20,15 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <!--<mysql.version>6.0.5</mysql.version>-->
+
+        <log4j.version>2.7</log4j.version>
+        <junit.version>4.12</junit.version>
         <mysql.version>5.1.38</mysql.version>
-        <javax.servlet.version>3.1.0</javax.servlet.version>
         <javax.validation.version>1.1.0.Final</javax.validation.version>
+        <javax.servlet.version>3.1.0</javax.servlet.version>
         <jstl.version>1.2</jstl.version>
-        <!--<hibernate.version>5.2.6.Final</hibernate.version>-->
-        <!--<hibernate.version>5.0.11.Final</hibernate.version>-->
         <hibernate.version>4.3.11.Final</hibernate.version>
         <hibernate.validator.version>5.3.4.Final</hibernate.validator.version>
-        <log4j.version>2.7</log4j.version>
     </properties>
 
     <dependencies>
@@ -38,21 +37,13 @@
             <artifactId>log4j-core</artifactId>
             <version>${log4j.version}</version>
         </dependency>
-        <!--<dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-core</artifactId>
-            <version>8.5.9</version>
-        </dependency>
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-mxj</artifactId>
-            <version>5.0.12</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-mxj-db-files</artifactId>
-            <version>5.0.12</version>
-        </dependency>-->
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -76,6 +67,5 @@
             <artifactId>jstl</artifactId>
             <version>${jstl.version}</version>
         </dependency>
-
     </dependencies>
 </project>

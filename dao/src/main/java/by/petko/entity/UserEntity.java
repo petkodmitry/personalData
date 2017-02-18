@@ -1,7 +1,11 @@
 package by.petko.entity;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
-import javax.validation.constraints.Size;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -32,7 +36,7 @@ public class UserEntity {
         this.userId = userId;
     }
 
-    @Size(min = 3, message = "login length must be at list 3 characters")
+    @Length(min = 3, message = "login length must be at list 3 characters")
     @Column(name = "login", nullable = false, unique = true)
     public String getLogin() {
         return login;
@@ -42,7 +46,7 @@ public class UserEntity {
         this.login = login;
     }
 
-    @Size(min = 6, message = "password length must be at list 6 characters")
+    @Length(min = 6, message = "password length must be at list 6 characters")
     @Column(name = "password", nullable = false)
     public String getPassword() {
         return password;
@@ -126,7 +130,6 @@ public class UserEntity {
         this.position = position;
     }
 
-//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     public ContactData getContactData() {

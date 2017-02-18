@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @WebServlet(name = "login", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
@@ -31,7 +33,8 @@ public class LoginServlet extends HttpServlet {
             if (username == null || username.isEmpty() ||
                     password == null || password.isEmpty() ||
                     (user = userService.login(username, password)) == null) {
-                request.setAttribute("errorMessage", "Please enter valid username and password.");
+                String msg = getBundle(request).getString("password.wrong");
+                request.setAttribute("errorMessage", msg);
                 doGet(request, response);
             } else {
                 String userRole = user.getRole().toUpperCase();
@@ -40,16 +43,24 @@ public class LoginServlet extends HttpServlet {
                     request.getSession().setAttribute("user", user);
                     response.sendRedirect(request.getContextPath() + "/" + userRole.toLowerCase());
                 } catch (IllegalArgumentException e) {
-                    request.setAttribute("errorMessage", "User's role is " + userRole + ", which is not allowed.");
+                    String msg = getBundle(request).getString("error.userrole");
+                    request.setAttribute("errorMessage", String.format(msg, userRole));
                     doGet(request, response);
                 }
             }
         } catch (HibernateException e) {
             String errorMessage = e.getMessage();
             if (errorMessage == null) {
-                request.setAttribute("errorMessage", "Some problem with DB connection occurred.");
+                String msg = getBundle(request).getString("error.db.connection");
+                request.setAttribute("errorMessage", msg);
             } else request.setAttribute("errorMessage", errorMessage);
             doGet(request, response);
         }
+    }
+
+    private ResourceBundle getBundle(HttpServletRequest request) {
+        String localeParam = request.getParameter("locale");
+        Locale locale = !"".equals(localeParam) ? new Locale(localeParam) : request.getLocale();
+        return ResourceBundle.getBundle("i18n/messages", locale);
     }
 }

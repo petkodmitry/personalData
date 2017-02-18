@@ -7,7 +7,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import javax.servlet.http.HttpSession;
 import java.util.*;
 
 public class UserService {
@@ -59,23 +58,6 @@ public class UserService {
         }
     }
 
-    public UserEntity getById(Integer id) {
-        Session currentSession = null;
-        Transaction transaction = null;
-        try {
-            currentSession = util.getSession();
-            transaction = currentSession.beginTransaction();
-            UserEntity user = userDao.getById(id);
-            transaction.commit();
-            return user;
-        } catch (HibernateException e) {
-            if (transaction != null) transaction.rollback();
-            throw new HibernateException(e.getMessage());
-        } finally {
-            util.releaseSession(currentSession);
-        }
-    }
-
     public void refresh(UserEntity user) {
         Session currentSession = null;
         Transaction transaction = null;
@@ -92,7 +74,7 @@ public class UserService {
         }
     }
 
-    public void changePassword(UserEntity user, String currentPassword,
+    public UserEntity changePassword(UserEntity user, String currentPassword,
                                String repeatedPassword, String desiredPassword) {
         Session currentSession = null;
         Transaction transaction = null;
@@ -106,6 +88,7 @@ public class UserService {
             user.setPassword(desiredPassword);
             userDao.saveOrUpdate(user);
             transaction.commit();
+            return user;
         } catch (HibernateException e) {
             if (transaction != null) transaction.rollback();
             throw new HibernateException(e.getMessage());

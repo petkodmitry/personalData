@@ -3,9 +3,8 @@
 <%@ page errorPage="error.jsp" %>
 <html>
 <head>
-    <%--<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.1.js"></script>--%>
-    <script type="text/javascript" src="../../js/jquery-3.1.1.js"></script>
-    <script type="text/javascript" src="../../js/validationUser.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/formValidation.js"></script>
 
     <title>Личный кабинет</title>
 </head>
@@ -65,7 +64,6 @@
             <td>
                 <div>
                     <input type="date" name="birthdate" class="checkable" title="birthdate"
-                    <%--value="${user.getBirthDate() != "(NULL)" ? (user.getBirthDate().getYear().toString().concat("-").concat(user.getBirthDate().getMonth()).concat("-").concat(user.getBirthDate().getDate())) : ""}"/>--%>
                            value="${user.getBirthDate() != "(NULL)" ? String.format("%d-%s%d-%s%d", user.getBirthDate().getYear() + 1900, user.getBirthDate().getMonth() >= 9 ? "" : "0", user.getBirthDate().getMonth() + 1, user.getBirthDate().getDate() >= 10 ? "" : "0", user.getBirthDate().getDate()) : ""}"/>
                     <input hidden="hidden" title="default"
                            value="${user.getBirthDate() != "(NULL)" ? String.format("%d-%s%d-%s%d", user.getBirthDate().getYear() + 1900, user.getBirthDate().getMonth() >= 9 ? "" : "0", user.getBirthDate().getMonth() + 1, user.getBirthDate().getDate() >= 10 ? "" : "0", user.getBirthDate().getDate()) : ""}"/>
@@ -164,8 +162,14 @@
 
         <tr></tr>
         <tr>
-            <td style="height: 30px; vertical-align: bottom"><input id="cancel" disabled type="button" value="Отменить" onclick="cancelAll()"/></td>
-            <td style="height: 30px; vertical-align: bottom"><input id="edit" disabled type="submit" value="Редактировать"/></td>
+            <td style="height: 30px; vertical-align: bottom">
+                <input id="cancel" disabled type="button" value="Отменить" onclick="cancelAll()"/>
+            </td>
+            <td style="height: 30px; vertical-align: bottom">
+                <input id="edit" disabled type="submit"
+                       onclick="validateAll()"
+                       value="Сохранить"/>
+            </td>
         </tr>
     </table>
 </form>

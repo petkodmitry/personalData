@@ -1,8 +1,8 @@
 package by.petko.servlets.user;
 
 import by.petko.UserService;
-import by.petko.entity.ContactData;
 import by.petko.entity.UserEntity;
+import by.petko.handlers.UserHandler;
 import org.hibernate.HibernateException;
 
 import javax.servlet.ServletException;
@@ -10,10 +10,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolationException;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 @WebServlet(name = "user", urlPatterns = "/user")
 public class UserServlet extends HttpServlet {
@@ -28,23 +28,32 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        UserEntity user = (UserEntity) request.getSession().getAttribute("user");
+        HttpSession session = request.getSession();
+        UserEntity user = (UserEntity) session.getAttribute("user");
         if (user != null) {
             try {
-                user.setName(request.getParameter("name"));
-                user.setSurname(request.getParameter("surname"));
-                user.setMiddleName(request.getParameter("middlename"));
+                String login = request.getParameter("login");
+                String password = request.getParameter("password");
+                String name = request.getParameter("name");
+                String surname = request.getParameter("surname");
+                String middleName = request.getParameter("middlename");
+                String role = request.getParameter("role");
+                String department = request.getParameter("department");
+                String position = request.getParameter("position");
                 String birthDate = request.getParameter("birthdate");
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                user.setBirthDate(dateFormat.parse(birthDate));
-                ContactData contactData = user.getContactData();
-                contactData.setCity(request.getParameter("city"));
-                contactData.setStreet(request.getParameter("street"));
-                contactData.setBuilding(request.getParameter("building"));
-                contactData.setFlat(request.getParameter("flat"));
-                contactData.setPhone(request.getParameter("phone"));
-                contactData.setEmail(request.getParameter("email"));
+                String entryDate = request.getParameter("entrydate");
+                String city = request.getParameter("city");
+                String street = request.getParameter("street");
+                String building = request.getParameter("building");
+                String flat = request.getParameter("flat");
+                String phone = request.getParameter("phone");
+                String email = request.getParameter("email");
+
+                user = UserHandler.getInstance().fillUserData(user, login, password, name, surname,
+                        middleName, role, department, position, birthDate, entryDate, city, street, building, flat, phone, email);
+
                 userService.saveOrUpdate(user);
+                session.setAttribute("user", user);
                 doGet(request, response);
             } catch (ParseException | HibernateException | ConstraintViolationException e) {
                 String errorMessage = e.getMessage();

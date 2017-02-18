@@ -3,19 +3,30 @@
 <%@ page errorPage="error.jsp" %>
 <html>
 <head>
-    <script type="text/javascript" src="../../js/jquery-3.1.1.js"></script>
-    <script type="text/javascript" src="../../js/editUser.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/formValidation.js"></script>
 
     <title>Edit User data</title>
 </head>
 <body>
 <HR>
 
-<form method="POST" action="${pageContext.request.contextPath}/admin/edit">
+<form method="POST" action="">
     <table>
         <tr>
             <td>Логин:</td>
-            <td><input disabled type="text" name="login" title="login" value="${userEntity.getLogin()}"/></td>
+            <td>
+                <div>
+                    <c:if test="${isRegister == null}">
+                        <input disabled type="text" name="login" title="login" value="${userEntity.getLogin()}"/>
+                    </c:if>
+                    <c:if test="${isRegister != null}">
+                        <input type="text" name="login" class="checkable" title="login"/>
+                        <input hidden="hidden" title="default" value=""/>
+                    </c:if>
+                    <label id="loginError" style="color: RED"></label>
+                </div>
+            </td>
         </tr>
         <tr>
             <td>Пароль:</td>
@@ -25,6 +36,7 @@
                            value="${userEntity.getPassword() != "(NULL)" ? userEntity.getPassword() : ""}"/>
                     <input hidden="hidden" title="default"
                            value="${userEntity.getPassword() != "(NULL)" ? userEntity.getPassword() : ""}"/>
+                    <label id="passwordError" style="color: RED"></label>
                 </div>
             </td>
         </tr>
@@ -220,15 +232,34 @@
 
         <tr></tr>
         <tr>
-            <td style="height: 30px; vertical-align: bottom"><input id="cancel" disabled type="button" value="Отменить"
-                                                                    onclick="cancelAll()"/></td>
-            <td style="height: 30px; vertical-align: bottom"><input id="edit" disabled type="submit"
-                                                                    value="Редактировать"/></td>
+            <td style="height: 30px; vertical-align: bottom">
+                <input id="cancel" disabled type="button" value="Отменить"
+                       onclick="cancelAll()"/>
+            </td>
+            <td style="height: 30px; vertical-align: bottom">
+                <c:if test="${isRegister == null}">
+                    <input id="edit" disabled type="submit"
+                           onclick="validateAll()"
+                           formaction="${pageContext.request.contextPath}/admin/edit?username=${userEntity.getLogin()}"
+                           value="Сохранить"/>
+                </c:if>
+                <c:if test="${isRegister != null}">
+                    <input id="edit" disabled type="submit"
+                           onclick="validateAll()"
+                           formaction="${pageContext.request.contextPath}/admin/register"
+                           value="Сохранить"/>
+                </c:if>
+            </td>
         </tr>
     </table>
 </form>
 
-<BR><a href="${pageContext.request.contextPath}/admin/allusers">Назад</a><BR>
+<c:if test="${isRegister == null}">
+    <BR><a href="${pageContext.request.contextPath}/admin/allusers">Назад</a><BR>
+</c:if>
+<c:if test="${isRegister != null}">
+    <BR><a href="${pageContext.request.contextPath}/admin">Назад</a><BR>
+</c:if>
 <c:if test="${requestScope['errorMessage'] != null}">
     <BR>Error: ${errorMessage}
 </c:if>

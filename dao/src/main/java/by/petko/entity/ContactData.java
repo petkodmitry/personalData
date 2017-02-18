@@ -1,13 +1,18 @@
 package by.petko.entity;
 
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Parameter;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "users_data")
 public class ContactData {
-    private Integer dataId;
+    private Integer userId;
     private String city;
     private String street;
     private String building;
@@ -16,14 +21,17 @@ public class ContactData {
     private String email;
     private UserEntity user;
 
+    @GenericGenerator(name = "generator", strategy = "foreign",
+            parameters = @Parameter(name = "property", value = "user"))
     @Id
+    @GeneratedValue(generator = "generator")
     @Column(name = "uid", nullable = false, unique = true)
-    public Integer getDataId() {
-        return dataId;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setDataId(Integer dataId) {
-        this.dataId = dataId;
+    public void setUserId(Integer dataId) {
+        this.userId = dataId;
     }
 
     @Column(name = "city")
@@ -84,9 +92,7 @@ public class ContactData {
         this.email = email;
     }
 
-//    @OneToOne
-    @OneToOne(/*mappedBy = "contactData"*//*, cascade = CascadeType.ALL*/)
-
+    @OneToOne
     @PrimaryKeyJoinColumn
     public UserEntity getUser() {
         return user;

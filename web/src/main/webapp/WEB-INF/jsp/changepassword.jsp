@@ -8,7 +8,6 @@
 <HR>
 
 <form method="POST" action="${pageContext.request.contextPath}/user/changepassword">
-<%--<form method="POST" action="user/changepassword">--%>
     <table>
         <tr>
             <td>Current password:</td>

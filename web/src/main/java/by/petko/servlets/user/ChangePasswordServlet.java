@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolationException;
 import java.io.IOException;
 
@@ -23,13 +24,15 @@ public class ChangePasswordServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UserEntity user = (UserEntity) request.getSession().getAttribute("user");
+        HttpSession session = request.getSession();
+        UserEntity user = (UserEntity) session.getAttribute("user");
         if (user != null) {
             try {
                 String currentPassword = request.getParameter("current");
                 String repeatedPassword = request.getParameter("repeat");
                 String desiredPassword = request.getParameter("new");
-                userService.changePassword(user, currentPassword, repeatedPassword, desiredPassword);
+                user = userService.changePassword(user, currentPassword, repeatedPassword, desiredPassword);
+                session.setAttribute("user", user);
                 request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/mainuser.jsp").forward(request, response);
             } catch (HibernateException | ConstraintViolationException e) {
                 String errorMessage = e.getMessage();
