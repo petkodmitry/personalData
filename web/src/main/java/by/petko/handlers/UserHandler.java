@@ -25,9 +25,9 @@ public class UserHandler {
                                    String email) throws ParseException{
         if (userEntity == null) userEntity = new UserEntity();
 
-        if (userEntity.getLogin() == null && login != null) userEntity.setLogin(login);
-        if (userEntity.getPassword() == null && password != null) userEntity.setPassword(password);
-        if (userEntity.getRole() == null && role != null) userEntity.setRole(role);
+        if (login != null) userEntity.setLogin(login);
+        if (password != null) userEntity.setPassword(password);
+        if (role != null) userEntity.setRole(role);
 
         userEntity.setName("".equals(name) ? null : name);
         userEntity.setSurname("".equals(surname) ? null : surname);
