@@ -7,5 +7,6 @@
 <H3>Ошибка!</H3><hr><br>
 ${errorMessage}<br><br>
 <a href="${pageContext.request.contextPath}/login">На главную</a>
+<br><br><a href="${pageContext.request.contextPath}/user/logout">Выход</a>
 </body>
 </html>

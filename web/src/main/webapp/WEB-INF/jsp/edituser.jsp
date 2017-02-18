@@ -229,8 +229,6 @@
                 </div>
             </td>
         </tr>
-
-        <tr></tr>
         <tr>
             <td style="height: 30px; vertical-align: bottom">
                 <input id="cancel" disabled type="button" value="Отменить"

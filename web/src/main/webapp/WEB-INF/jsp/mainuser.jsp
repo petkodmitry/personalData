@@ -159,8 +159,6 @@
             <td><input disabled type="text" name="experience" title="experience"
                        value="${user.getExperience() != "(NULL)" ? user.getExperience() : ""}"/></td>
         </tr>
-
-        <tr></tr>
         <tr>
             <td style="height: 30px; vertical-align: bottom">
                 <input id="cancel" disabled type="button" value="Отменить" onclick="cancelAll()"/>

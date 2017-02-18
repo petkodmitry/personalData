@@ -1,14 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ page errorPage="error.jsp" %>
 <HTML>
 <HEAD>
     <TITLE>All users</TITLE>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/mainAdmin.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/deleteUser.js"></script>
 </HEAD>
 <BODY><H3>Table: Users</H3>
 <HR>
@@ -233,8 +230,11 @@
             <td><c:out value="${user.getContactData().getFlat()}"/></td>
             <td><c:out value="${user.getContactData().getPhone()}"/></td>
             <td><c:out value="${user.getContactData().getEmail()}"/></td>
-            <td style="border: 0px"><input type="button" value="Delete"
-                                           title="Delete <${user.getLogin()}>" onclick="deleting('${user.getLogin()}')" /></td>
+            <td style="border: 0px">
+                <input type="button" value="Delete"
+                       title="Delete <${user.getLogin()}>"
+                       onclick="deleting('${pageContext.request.contextPath}', '${user.getLogin()}')" />
+            </td>
         </tr>
     </c:forEach>
     </tbody>

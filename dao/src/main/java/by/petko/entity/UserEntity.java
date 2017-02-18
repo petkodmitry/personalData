@@ -142,8 +142,10 @@ public class UserEntity {
 
     @Transient
     public String getExperience() {
-        Calendar diff = Calendar.getInstance();
-        diff.setTimeInMillis(new Date().getTime() - getEntryDate().getTime());
-        return "Лет: " + (diff.get(Calendar.YEAR) - 1970) + ", месяцев: " + diff.get(Calendar.MONTH);
+        if (getEntryDate() != null) {
+            Calendar diff = Calendar.getInstance();
+            diff.setTimeInMillis(new Date().getTime() - getEntryDate().getTime());
+            return "Лет: " + (diff.get(Calendar.YEAR) - 1970) + ", месяцев: " + diff.get(Calendar.MONTH);
+        } else return "НЕТ";
     }
 }
